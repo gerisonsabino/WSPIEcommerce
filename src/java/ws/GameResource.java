@@ -4,6 +4,8 @@ import classes.Game;
 import com.google.gson.Gson;
 import dao.GameDAO;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.Produces;
@@ -21,7 +23,7 @@ public class GameResource
     public GameResource() { }
 
     @GET
-    @Produces(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
     @Path("/selectgames/{plataforma}/{genero}/{desenvolvedor}")
     public String selectGames(@PathParam("plataforma") int plataforma, @PathParam("genero") int genero, @PathParam("desenvolvedor") int desenvolvedor)
     {        
@@ -31,10 +33,48 @@ public class GameResource
     }
     
     @GET
-    @Produces(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
     @Path("/selectgamebyid/{id}/")
     public String selectGameByID(@PathParam("id") int id)
     {        
         return new Gson().toJson(new GameDAO().selectGameByID(id));
+    }
+    
+    @GET
+    @Produces(MediaType.APPLICATION_JSON+ ";charset=UTF-8")
+    @Path("/selectgamesrandom/{qtde}")
+    public String selectGamesRandom(@PathParam("qtde") int qtde)
+    {        
+        List<Game> games = new GameDAO().selectGames();
+        Collections.shuffle(games);
+        
+        if (qtde > games.size()) 
+        {
+            games = games.subList(0, games.size());
+        }
+        else
+        {
+            games = games.subList(0, qtde);
+        }
+        
+        return new Gson().toJson(games);
+    }
+    
+    @GET
+    @Produces(MediaType.APPLICATION_JSON+ ";charset=UTF-8")
+    @Path("/pesquisargames/{termo}")
+    public String pesquisarGames(@PathParam("termo") String termo)
+    {        
+        List<Game> games = new GameDAO().pesquisarGames(termo);
+        
+        return new Gson().toJson(games);
+    }
+    
+    @GET
+    @Produces(MediaType.APPLICATION_JSON+ ";charset=UTF-8")
+    @Path("/getsugestoes/{json}")
+    public String getSugestoes(@PathParam("json") String json)
+    {        
+        return new Gson().toJson(selectGamesRandom(5));
     }
 }

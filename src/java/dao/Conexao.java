@@ -19,7 +19,7 @@ public class Conexao
         String driverName = "com.mysql.jdbc.Driver";
         Class.forName(driverName);
 
-        String url = "jdbc:mysql://" + serverName +  ":"+ portNumber+"/" + mydatabase+"?useSSL=false"; // a JDBC url
+        String url = "jdbc:mysql://" + serverName +  ":"+ portNumber+"/" + mydatabase+"?useSSL=false";
         con = DriverManager.getConnection(url, username, password);
 
         return con;
