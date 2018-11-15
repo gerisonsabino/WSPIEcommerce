@@ -19,5 +19,4 @@ public class ApplicationConfig extends Application {
         resources.add(ws.GeneroResource.class);
         resources.add(ws.PlataformaResource.class);
     }
-    
 }
