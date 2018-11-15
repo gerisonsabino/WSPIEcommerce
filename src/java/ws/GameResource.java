@@ -62,6 +62,30 @@ public class GameResource
     
     @GET
     @Produces(MediaType.APPLICATION_JSON+ ";charset=UTF-8")
+    @Path("/selectcountbyiddesenvolvedor/{dev}/{gen}/{pla}/")
+    public String selectCountByIDDesenvolvedor(@PathParam("dev") int idDesenvolvedor, @PathParam("gen") int idGenero, @PathParam("pla") int idPlataforma) 
+    {
+        return "{\"count\":" + new GameDAO().selectCountByIDDesenvolvedor(idDesenvolvedor, idGenero, idPlataforma) + "}";
+    }
+    
+    @GET
+    @Produces(MediaType.APPLICATION_JSON+ ";charset=UTF-8")
+    @Path("/selectcountbyidgenero/{gen}/{pla}/{dev}/")
+    public String selectCountByIDGenero( @PathParam("gen") int idGenero, @PathParam("pla") int idPlataforma, @PathParam("dev") int idDesenvolvedor) 
+    {
+        return "{\"count\":" + new GameDAO().selectCountByIDGenero(idGenero, idPlataforma, idDesenvolvedor) + "}";
+    }
+    
+    @GET
+    @Produces(MediaType.APPLICATION_JSON+ ";charset=UTF-8")
+    @Path("/selectcountbyidplataforma/{pla}/{gen}/{dev}/")
+    public String selectCountByIDPlataforma(@PathParam("pla") int idPlataforma, @PathParam("gen") int idGenero, @PathParam("dev") int idDesenvolvedor) 
+    {
+        return "{\"count\":" + new GameDAO().selectCountByIDPlataforma(idPlataforma, idGenero, idDesenvolvedor)+ "}";
+    }
+    
+    @GET
+    @Produces(MediaType.APPLICATION_JSON+ ";charset=UTF-8")
     @Path("/pesquisargames/{termo}")
     public String pesquisarGames(@PathParam("termo") String termo)
     {        
@@ -77,4 +101,6 @@ public class GameResource
     {        
         return new Gson().toJson(selectGamesRandom(5));
     }
+    
+    
 }

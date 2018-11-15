@@ -1,7 +1,5 @@
 package classes;
 
-import dao.GameDAO;
-
 public class Desenvolvedor 
 {
     private int id;
@@ -21,10 +19,5 @@ public class Desenvolvedor
 
     public void setNome(String nome) {
         this.nome = nome;
-    }
-    
-    public int countGames(int idGenero, int idPlataforma)
-    {
-        return new GameDAO().selectCountByIDDesenvolvedor(this.getId(), idGenero, idPlataforma);
     }
 }

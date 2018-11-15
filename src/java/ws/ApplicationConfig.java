@@ -14,7 +14,10 @@ public class ApplicationConfig extends Application {
     }
 
     private void addRestResourceClasses(Set<Class<?>> resources) {
+        resources.add(ws.DesenvolvedorResource.class);
         resources.add(ws.GameResource.class);
+        resources.add(ws.GeneroResource.class);
+        resources.add(ws.PlataformaResource.class);
     }
     
 }
