@@ -13,8 +13,8 @@ public class Conexao
         String portNumber = "3306";
         String mydatabase = "pi_ecommerce";
 
-        String username = "admin";
-        String password = "MySQL";
+        String username = "root";
+        String password = "root";
 
         String driverName = "com.mysql.jdbc.Driver";
         Class.forName(driverName);

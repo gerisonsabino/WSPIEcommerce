@@ -21,16 +21,6 @@ public class GameResource
     private UriInfo context;
 
     public GameResource() { }
-
-    @GET
-    @Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
-    @Path("/selectgames/{plataforma}/{genero}/{desenvolvedor}")
-    public String selectGames(@PathParam("plataforma") int plataforma, @PathParam("genero") int genero, @PathParam("desenvolvedor") int desenvolvedor)
-    {        
-        ArrayList<Game> games = new GameDAO().selectGames(plataforma, genero, desenvolvedor);
-        
-        return new Gson().toJson(games);
-    }
     
     @GET
     @Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
@@ -42,22 +32,10 @@ public class GameResource
     
     @GET
     @Produces(MediaType.APPLICATION_JSON+ ";charset=UTF-8")
-    @Path("/selectgamesrandom/{qtde}")
-    public String selectGamesRandom(@PathParam("qtde") int qtde)
-    {        
-        List<Game> games = new GameDAO().selectGames();
-        Collections.shuffle(games);
-        
-        if (qtde > games.size()) 
-        {
-            games = games.subList(0, games.size());
-        }
-        else
-        {
-            games = games.subList(0, qtde);
-        }
-        
-        return new Gson().toJson(games);
+    @Path("/selectgames/{pla}/{gen}/{dev}/")
+    public String selectGames(@PathParam("pla") int idPlataforma, @PathParam("gen") int idGenero, @PathParam("dev") int idDesenvolvedor) 
+    {
+        return new Gson().toJson(new GameDAO().selectGames(idPlataforma, idGenero, idDesenvolvedor));
     }
     
     @GET
@@ -96,11 +74,31 @@ public class GameResource
     
     @GET
     @Produces(MediaType.APPLICATION_JSON+ ";charset=UTF-8")
-    @Path("/getsugestoes/{json}")
-    public String getSugestoes(@PathParam("json") String json)
+    @Path("/selectgamesrandom/{qtde}")
+    public String selectGamesRandom(@PathParam("qtde") int qtde)
     {        
-        return new Gson().toJson(selectGamesRandom(5));
+        List<Game> games = new GameDAO().selectGames();
+        Collections.shuffle(games);
+        
+        if (qtde > games.size()) 
+        {
+            games = games.subList(0, games.size());
+        }
+        else
+        {
+            games = games.subList(0, qtde);
+        }
+        
+        return new Gson().toJson(games);
     }
     
-    
+    @GET
+    @Produces(MediaType.APPLICATION_JSON+ ";charset=UTF-8")
+    @Path("/selectrecomendacoes/{json}")
+    public String selectRecomendacoes(@PathParam("json") String json)
+    {   
+        int[] gameIds = new Gson().fromJson(json, int[].class);
+        
+        return new Gson().toJson(new GameDAO().selectRecomendacoes(gameIds));
+    }
 }
