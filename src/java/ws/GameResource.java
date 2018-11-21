@@ -100,6 +100,9 @@ public class GameResource
         ArrayList<String> gameIds = new ArrayList<>();
         gameIds = new Gson().fromJson(json, gameIds.getClass());
         
-        return new Gson().toJson(new GameDAO().selectRecomendacoes(gameIds));
+        if (gameIds.size() > 0)            
+            return new Gson().toJson(new GameDAO().selectRecomendacoes(gameIds));
+        else
+            return this.selectGamesRandom(5);
     }
 }
