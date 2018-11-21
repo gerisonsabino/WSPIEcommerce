@@ -97,7 +97,8 @@ public class GameResource
     @Path("/selectrecomendacoes/{json}")
     public String selectRecomendacoes(@PathParam("json") String json)
     {   
-        int[] gameIds = new Gson().fromJson(json, int[].class);
+        ArrayList<String> gameIds = new ArrayList<>();
+        gameIds = new Gson().fromJson(json, gameIds.getClass());
         
         return new Gson().toJson(new GameDAO().selectRecomendacoes(gameIds));
     }

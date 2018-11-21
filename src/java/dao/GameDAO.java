@@ -414,7 +414,7 @@ public class GameDAO
         return games;
     }
     
-    public ArrayList<Game> selectRecomendacoes(int[] gameIds) 
+    public ArrayList<Game> selectRecomendacoes(ArrayList<String> gameIds) 
     {
         ArrayList<Game> games = new ArrayList<Game>();
         ArrayList<Desenvolvedor> desenvolvedores = new DesenvolvedorDAO().selectDesenvolvedores();
@@ -423,16 +423,16 @@ public class GameDAO
         
         String in = "";
         
-        for (int i = 0; i < gameIds.length; i++) 
+        for (int i = 0; i < gameIds.size(); i++) 
         {
-            in += gameIds[i] + (i + 1 < gameIds.length ? ", " : "");
+            in += gameIds.get(i) + (i + 1 < gameIds.size() ? ", " : "");
         }
         
         try 
         {
             Connection con = Conexao.getConnection();
             
-            String sql = "SELECT game.* FROM game AS GAME LEFT JOIN game AS GAME2 ON GAME.IDGenero = GAME2.IDGenero AND GAME.IDPlataforma = GAME2.IDPlataforma OR GAME.IDDesenvolvedor = GAME2.IDDesenvolvedor WHERE GAME2.ID IN (" + in + ") AND GAME.ID  NOT IN (" + in + ");";
+            String sql = "SELECT DISTINCT game.* FROM game AS GAME LEFT JOIN game AS GAME2 ON GAME.IDGenero = GAME2.IDGenero AND GAME.IDPlataforma = GAME2.IDPlataforma OR GAME.IDDesenvolvedor = GAME2.IDDesenvolvedor WHERE GAME2.ID IN (" + in + ") AND GAME.ID  NOT IN (" + in + ");";
             
             PreparedStatement ps = con.prepareStatement(sql);
             
